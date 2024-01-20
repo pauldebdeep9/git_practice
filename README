@@ -1,0 +1,31 @@
+README for Branch and Border: Partition-Based Change Detection in Multivariate Time Series
+
+========== 0. INTRODUCTION
+
+BNB is a nonparametric change detection algorithm for multivariate time series: it finds time points where the behavior of the time series changes, without assuming any parametric family of distributions. 
+
+The 2 main functions meant for external use are change_score and change_score_online, both in changetree.py. The first is the offline version (BNB), while the second is the online version (BNBO). In general, the offline version tends to perform slightly better, so we recommend it unless the online nature of BNBO is required. 
+
+========== 1. GETTING STARTED
+
+The easiest way to get started is to run "python run_example.py". This generates a simple test dataset (2 Gaussian distributions with different means, with a change point at time 51), runs both algorithms, and plots the results. 
+
+========== 3. FUNCTION REFERENCE: INPUT/OUTPUT
+
+(a) change_score
+
+INPUT:
+- X: n x d dataset (where n is the number of time ticks, and d is the number of dimensions)
+- ntrees: number of trees to use. We recommend 50 as default
+- w: window size. We recommend 15 as default
+- lim: height limit of trees. We recommend 15 as default
+
+OUTPUT:
+- (score, changes): a tuple containing:
+	- score: an array of scores of length n corresponding to the points in X, where the first w and last w-1 points are nan, since the change score is based on surrounding windows of size w
+	- changes: a array of suggested change points, in order of confidence. I.e. if you want 10 change points, simply take the first 10 entries of this array. 
+
+
+(b) change_score_online
+
+The interface is identical to that of change_score.
